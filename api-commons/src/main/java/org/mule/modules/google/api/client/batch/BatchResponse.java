@@ -13,10 +13,6 @@ package org.mule.modules.google.api.client.batch;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.mule.common.bulk.BulkItem;
-import org.mule.common.bulk.BulkOperationResult;
-import org.mule.common.bulk.BulkOperationResult.BulkOperationResultBuilder;
-
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonError.ErrorInfo;
 
@@ -30,24 +26,14 @@ public class BatchResponse<T> {
 
 	private List<T> successful = new ArrayList<T>();
 	private List<ErrorInfo> errors = new ArrayList<ErrorInfo>();
-	private BulkOperationResultBuilder<T> resultBuilder = BulkOperationResult.<T>builder();
 	
 	public BatchResponse<T> addSuccessful(T succesful) {
 		this.successful.add(succesful);
-		this.resultBuilder.addItem(BulkItem.<T>builder()
-								.setPayload(succesful)
-							);
 		return this;
 	}
 	
 	public BatchResponse<T> addError(GoogleJsonError error) {
 		this.errors.addAll(error.getErrors());
-		this.resultBuilder.addItem(BulkItem.<T>builder()
-				.setSuccessful(false)
-				.setStatusCode(String.valueOf(error.getCode()))
-				.setMessage(error.getMessage())
-		);
-		
 		return this;
 	}
 
@@ -57,10 +43,6 @@ public class BatchResponse<T> {
 	
 	public List<ErrorInfo> getErrors() {
 		return errors;
-	}
-	
-	public BulkOperationResult<T> asBulkOperationResult() {
-		return this.resultBuilder.build();
 	}
 	
 }

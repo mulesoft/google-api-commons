@@ -15,8 +15,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.mule.RequestContext;
-import org.mule.api.MuleEvent;
 
 import com.sun.jersey.api.client.Client;
 
@@ -25,7 +23,6 @@ import com.sun.jersey.api.client.Client;
  * @author mariano.gonzalez@mulesoft.com
  *
  */
-@SuppressWarnings("deprecation")
 public abstract class GoogleUserIdExtractor {
 	
 	private static Logger logger = Logger.getLogger(GoogleUserIdExtractor.class);
@@ -33,9 +30,6 @@ public abstract class GoogleUserIdExtractor {
 	
 	private static final Pattern profilePattern = Pattern.compile("\"user_id\"[ ]*:[ ]*\"([^\\\"]*)\"");
 	private static final Pattern emailPattern = Pattern.compile("\"email\"[ ]*:[ ]*\"([^\\\"]*)\"");
-	
-	public static final String GOOGLE_USER_ID = "GOOGLE_USER_ID";
-	public static final String GOOGLE_USER_EMAIL = "GOOGLE_USER_EMAIL";
 	
 	public static String getUserEmail(AbstractGoogleOAuthConnector connector) {
 		return fetchId(connector, "https://www.googleapis.com/oauth2/v1/userinfo", emailPattern);
@@ -71,15 +65,7 @@ public abstract class GoogleUserIdExtractor {
 		}
 		
 		return connector.getUserId();
-	}
-	
-	public static void fetchAndPublishAsFlowVar(AbstractGoogleOAuthConnector connector) {
-		String email = getUserEmail(connector);
-		String userId = getUserId(connector);
 		
-		MuleEvent event = RequestContext.getEvent();
-		event.setFlowVariable(GOOGLE_USER_EMAIL, email);
-		event.setFlowVariable(GOOGLE_USER_ID, userId);
 	}
 
 }
