@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.mulesoft.google</groupId>
-	<artifactId>google-api-gdata</artifactId>
+	<groupId>org.mule.modules</groupId>
+	<artifactId>mule-module-google-api-gdata</artifactId>
 	<packaging>jar</packaging>
 
 	<parent>
 		<groupId>org.mule.modules</groupId>
-		<artifactId>mule-module-google-api-commons</artifactId>
+		<artifactId>mule-module-google-api-commons-parent</artifactId>
 		<version>1.5.0-SNAPSHOT</version>
 	</parent>
 
@@ -20,14 +20,6 @@
 			<id>google-api-services</id>
 			<url>http://mavenrepo.google-api-java-client.googlecode.com/hg</url>
 		</repository>
-
-		<repository>
-			<id>muleforge-repo</id>
-			<name>MuleForge Repository</name>
-			<url>http://repository.muleforge.org</url>
-			<layout>default</layout>
-		</repository>
-
 		<repository>
 			<id>codehaus-repo</id>
 			<name>Codehaus Repository</name>
@@ -40,18 +32,6 @@
 			<name>Codehaus Snapshot Repository</name>
 			<url>http://snapshots.repository.codehaus.org</url>
 			<layout>default</layout>
-		</repository>
-
-		<repository>
-			<id>mule-ee</id>
-			<name>EE Repository</name>
-			<url>http://dev.ee.mulesource.com/repository/content/repositories/releases</url>
-			<layout>default</layout>
-		</repository>
-		<repository>
-			<id>mule-ee-snapshots</id>
-			<name>MuleEE Snapshots Repository</name>
-			<url>http://dev.ee.mulesource.com/repository/content/repositories/snapshots/</url>
 		</repository>
 	</repositories>
 
@@ -87,8 +67,8 @@
 	
 	<dependencies>
 		<dependency>
-			<groupId>com.mulesoft.google</groupId>
-			<artifactId>google-api-commons</artifactId>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-module-google-api-commons</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
