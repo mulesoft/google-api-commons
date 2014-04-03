@@ -22,6 +22,7 @@
 		<junit.version>4.9</junit.version>
 		<mockito.version>1.8.2</mockito.version>
 		<jdk.version>1.6</jdk.version>
+        <google.api.version>1.17.0-rc</google.api.version>
 		<licensePath>LICENSE.md</licensePath>
 		<devkit.studio.package.skip>false</devkit.studio.package.skip>
 	</properties>
@@ -86,7 +87,4 @@
             </properties>
         </profile>
     </profiles>
- 
-
-
 </project>
