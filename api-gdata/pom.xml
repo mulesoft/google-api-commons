@@ -85,18 +85,5 @@
 			<version>1.4.5</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-		 <dependency>
-            <groupId>com.sun</groupId>
-            <artifactId>tools</artifactId>
-            <scope>system</scope>
-            <version>${jdk.version}</version>
-            <systemPath>${toolsjar}</systemPath>
-        </dependency>
 	</dependencies>
 </project>
