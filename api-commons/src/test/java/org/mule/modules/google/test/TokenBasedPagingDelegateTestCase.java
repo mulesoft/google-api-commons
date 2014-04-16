@@ -17,17 +17,17 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.junit.Test;
+import org.mule.modules.google.AbstractGoogleOAuthConnector;
 import org.mule.modules.google.api.pagination.TokenBasedPagingDelegate;
-import org.mule.streaming.PagingDelegate;
 
 public class TokenBasedPagingDelegateTestCase {
 
 	@Test
 	public void testTwoPages() {
-		PagingDelegate<String> delegate = new TokenBasedPagingDelegate<String>() {
+        TokenBasedPagingDelegate<String> delegate = new TokenBasedPagingDelegate<String>() {
 			
 			@Override
-			protected List<String> doGetPage() throws IOException {
+			protected List<String> doGetPage(AbstractGoogleOAuthConnector connector) throws IOException {
 				if (this.getPageToken() != null) {
 					this.setPageToken(null);
 				} else {
@@ -39,8 +39,35 @@ public class TokenBasedPagingDelegateTestCase {
 			
 		};
 		
-		Assert.assertEquals(2, delegate.getPage().size());
-		Assert.assertEquals(2, delegate.getPage().size());
-		Assert.assertEquals(0, delegate.getPage().size());
+		Assert.assertEquals(2, delegate.getPage(new AbstractGoogleOAuthConnector() {
+            @Override
+            public String getAccessToken() {
+                return null;
+            }
+            @Override
+            public Object getClient() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+        }).size());
+		Assert.assertEquals(2, delegate.getPage(new AbstractGoogleOAuthConnector() {
+            @Override
+            public String getAccessToken() {
+                return null;
+            }
+            @Override
+            public Object getClient() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+        }).size());
+		Assert.assertEquals(0, delegate.getPage(new AbstractGoogleOAuthConnector() {
+            @Override
+            public String getAccessToken() {
+                return null;
+            }
+            @Override
+            public Object getClient() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+        }).size());
 	}
 }

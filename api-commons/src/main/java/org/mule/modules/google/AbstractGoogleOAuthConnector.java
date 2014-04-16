@@ -58,5 +58,6 @@ public abstract class AbstractGoogleOAuthConnector implements MuleContextAware {
 	public void setMuleContext(MuleContext muleContext) {
 		this.muleContext = muleContext;
 	}
-	
+
+    public abstract Object getClient();
 }

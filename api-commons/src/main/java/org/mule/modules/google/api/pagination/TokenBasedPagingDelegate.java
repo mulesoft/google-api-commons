@@ -15,35 +15,36 @@ import java.util.Collections;
 import java.util.List;
 
 import org.mule.api.MuleException;
-import org.mule.streaming.PagingDelegate;
+import org.mule.modules.google.AbstractGoogleOAuthConnector;
+import org.mule.streaming.ProviderAwarePagingDelegate;
 
-public abstract class TokenBasedPagingDelegate<T> extends PagingDelegate<T> {
+public abstract class TokenBasedPagingDelegate<T> extends ProviderAwarePagingDelegate<T, AbstractGoogleOAuthConnector> {
 	
 	private String pageToken = null;
 	private boolean firstExecution = true;
-	
+
 	@Override
 	public void close() throws MuleException {
 		this.pageToken = null;
 	}
 	
 	@Override
-	public List<T> getPage() {
+	public List<T> getPage(AbstractGoogleOAuthConnector connector) {
 		if (!this.firstExecution && this.pageToken == null) {
 			return Collections.emptyList();
 		}
 		try {
 			this.firstExecution = false;
-			return this.doGetPage();
+			return this.doGetPage(connector);
 		} catch (IOException e ) {
 			throw new RuntimeException(e);
 		}
 	}
 	
-	protected abstract List<T> doGetPage() throws IOException;
+	protected abstract List<T> doGetPage(AbstractGoogleOAuthConnector connector) throws IOException;
 	
 	@Override
-	public int getTotalResults() {
+	public int getTotalResults(AbstractGoogleOAuthConnector connector) {
 		return -1;
 	}
 
@@ -54,7 +55,4 @@ public abstract class TokenBasedPagingDelegate<T> extends PagingDelegate<T> {
 	protected void setPageToken(String pageToken) {
 		this.pageToken = pageToken;
 	}
-	
-	
-
 }
