@@ -22,6 +22,7 @@
 		<junit.version>4.9</junit.version>
 		<mockito.version>1.8.2</mockito.version>
 		<jdk.version>1.6</jdk.version>
+        <google.api.version>1.17.0-rc</google.api.version>
 		<licensePath>LICENSE.md</licensePath>
 		<devkit.studio.package.skip>false</devkit.studio.package.skip>
 	</properties>
@@ -50,43 +51,4 @@
 		<developerConnection>scm:git:git@github.com:mulesoft/google-api-commons.git</developerConnection>
 		<url>https://github.com/mulesoft/google-api-commons</url>
 	</scm>
-
-	  <profiles>
-        <profile>
-            <id>windows_profile</id>
-            <activation>
-                <os>
-                    <family>Windows</family>
-                </os>
-            </activation>
-            <properties>
-                <toolsjar>${java.home}/../lib/tools.jar</toolsjar>
-            </properties>
-        </profile>
-        <profile>
-            <id>linux_profile</id>
-            <activation>
-                <os>
-                    <name>linux</name>
-                </os>
-            </activation>
-            <properties>
-                <toolsjar>${java.home}/../lib/tools.jar</toolsjar>
-            </properties>
-        </profile>
-        <profile>
-            <id>osx_profile</id>
-            <activation>
-                <os>
-                    <family>mac</family>
-                </os>
-            </activation>
-            <properties>
-                <toolsjar>${java.home}/../Classes/classes.jar</toolsjar>
-            </properties>
-        </profile>
-    </profiles>
- 
-
-
 </project>

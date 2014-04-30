@@ -20,36 +20,26 @@ import org.junit.Test;
 import org.mule.modules.google.AbstractGoogleOAuthConnector;
 import org.mule.modules.google.api.pagination.TokenBasedPagingDelegate;
 
-public class TokenBasedPagingDelegateTestCase {
+public class TokenBasedPagingDelegateTestCases {
 
-    @Test
-    public void testTwoPages() {
+	@Test
+	public void testTwoPages() {
         TokenBasedPagingDelegate<String> delegate = new TokenBasedPagingDelegate<String>() {
-
-            @Override
-            protected List<String> doGetPage(AbstractGoogleOAuthConnector connector) throws IOException {
-                if (this.getPageToken() != null) {
-                    this.setPageToken(null);
-                } else {
-                    this.setPageToken("a token");
-                }
-
-                return Arrays.asList("one", "two");
-            }
-
-        };
-
-        Assert.assertEquals(2, delegate.getPage(new AbstractGoogleOAuthConnector() {
-            @Override
-            public String getAccessToken() {
-                return null;
-            }
-            @Override
-            public Object getClient() {
-                return null;  //To change body of implemented methods use File | Settings | File Templates.
-            }
-        }).size());
-        Assert.assertEquals(2, delegate.getPage(new AbstractGoogleOAuthConnector() {
+			
+			@Override
+			protected List<String> doGetPage(AbstractGoogleOAuthConnector connector) throws IOException {
+				if (this.getPageToken() != null) {
+					this.setPageToken(null);
+				} else {
+					this.setPageToken("a token");
+				}
+				
+				return Arrays.asList("one", "two");
+			}
+			
+		};
+		
+		Assert.assertEquals(2, delegate.getPage(new AbstractGoogleOAuthConnector() {
             @Override
             public String getAccessToken() {
                 return null;
@@ -59,7 +49,7 @@ public class TokenBasedPagingDelegateTestCase {
                 return null;  //To change body of implemented methods use File | Settings | File Templates.
             }
         }).size());
-        Assert.assertEquals(0, delegate.getPage(new AbstractGoogleOAuthConnector() {
+		Assert.assertEquals(2, delegate.getPage(new AbstractGoogleOAuthConnector() {
             @Override
             public String getAccessToken() {
                 return null;
@@ -69,5 +59,15 @@ public class TokenBasedPagingDelegateTestCase {
                 return null;  //To change body of implemented methods use File | Settings | File Templates.
             }
         }).size());
-    }
+		Assert.assertEquals(0, delegate.getPage(new AbstractGoogleOAuthConnector() {
+            @Override
+            public String getAccessToken() {
+                return null;
+            }
+            @Override
+            public Object getClient() {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+        }).size());
+	}
 }
