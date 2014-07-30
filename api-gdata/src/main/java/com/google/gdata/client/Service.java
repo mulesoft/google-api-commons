@@ -58,6 +58,7 @@ import com.google.gdata.wireformats.output.OutputProperties;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.Proxy;
 import java.net.URI;
 import java.net.URL;
 import java.util.Collection;
@@ -397,7 +398,7 @@ public class Service {
      * Set authentication token to be used on subsequent requests created via
      * {@link #getRequest(
      * com.google.gdata.client.Service.GDataRequest.RequestType, URL,
-     * ContentType)}.
+     * ContentType, java.net.Proxy)}.
      *
      * An {@link IllegalArgumentException} is thrown if an auth token of the
      * wrong type is passed, or if authentication is not supported.
@@ -418,7 +419,7 @@ public class Service {
      *        request body. May be {@code null} if no data is provided.
      */
     public GDataRequest getRequest(GDataRequest.RequestType type,
-        URL requestUrl, ContentType contentType) throws IOException,
+        URL requestUrl, ContentType contentType, Proxy proxy) throws IOException,
         ServiceException;
 
     /**
@@ -434,7 +435,7 @@ public class Service {
      * @param contentType this parameter is unused but remains for backwards
      *        compatibility.
      */
-    public GDataRequest getRequest(Query query, ContentType contentType)
+    public GDataRequest getRequest(Query query, ContentType contentType, Proxy proxy)
         throws IOException, ServiceException;
   }
 
@@ -582,7 +583,17 @@ public class Service {
     return protocolVersion;
   }
 
-  /**
+  private Proxy proxy;
+
+    public Proxy getProxy() {
+        return proxy;
+    }
+
+    public void setProxy(Proxy proxy) {
+        this.proxy = proxy;
+    }
+
+    /**
    * Sets the service protocol version that will be used for requests associated
    * with this service.
    *
@@ -752,7 +763,7 @@ public class Service {
       ServiceException {
 
     GDataRequest request =
-        requestFactory.getRequest(type, requestUrl, inputType);
+        requestFactory.getRequest(type, requestUrl, inputType, getProxy());
     setTimeouts(request);
     return request;
   }
@@ -767,7 +778,7 @@ public class Service {
   protected GDataRequest createRequest(Query query, ContentType inputType)
       throws IOException, ServiceException {
 
-    GDataRequest request = requestFactory.getRequest(query, inputType);
+    GDataRequest request = requestFactory.getRequest(query, inputType, getProxy());
     setTimeouts(request);
     return request;
   }

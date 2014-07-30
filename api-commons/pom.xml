@@ -81,13 +81,13 @@
 		<dependency>
 			<groupId>com.google.api-client</groupId>
 			<artifactId>google-api-client</artifactId>
-			<version>1.10.3-beta</version>
+			<version>1.17.0-rc</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.oauth-client</groupId>
 			<artifactId>google-oauth-client</artifactId>
-			<version>1.10.1-beta</version>
+			<version>1.17.0-rc</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

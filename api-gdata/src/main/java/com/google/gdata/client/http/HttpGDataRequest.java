@@ -16,10 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.net.HttpURLConnection;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -151,18 +148,18 @@ public class HttpGDataRequest implements GDataRequest {
 
     public GDataRequest getRequest(RequestType type,
                                    URL requestUrl,
-                                   ContentType contentType)
+                                   ContentType contentType, Proxy proxy)
         throws IOException, ServiceException {
       if (this.useSsl && !requestUrl.getProtocol().startsWith("https")) {
         requestUrl = new URL(
             requestUrl.toString().replaceFirst("http", "https"));
       }
-      return createRequest(type, requestUrl, contentType);
+      return createRequest(type, requestUrl, contentType, proxy);
     }
 
-    public GDataRequest getRequest(Query query, ContentType contentType)
+    public GDataRequest getRequest(Query query, ContentType contentType, Proxy proxy)
         throws IOException, ServiceException {
-      return getRequest(RequestType.QUERY, query.getUrl(), contentType);
+      return getRequest(RequestType.QUERY, query.getUrl(), contentType, proxy);
     }
 
     /**
@@ -174,10 +171,10 @@ public class HttpGDataRequest implements GDataRequest {
      * <p>Subclasses should overwrite this method and not {@link #getRequest}
      */
     protected GDataRequest createRequest(RequestType type,
-        URL requestUrl, ContentType contentType)
+        URL requestUrl, ContentType contentType, Proxy proxy)
         throws IOException, ServiceException {
       return new HttpGDataRequest(type, requestUrl, contentType,
-          authToken, headerMap, privateHeaderMap, connectionSource);
+          authToken, headerMap, privateHeaderMap, connectionSource, proxy);
     }
   }
 
@@ -265,14 +262,14 @@ public class HttpGDataRequest implements GDataRequest {
   protected HttpGDataRequest(RequestType type, URL requestUrl,
       ContentType inputType, HttpAuthToken authToken,
       Map<String, String> headerMap, Map<String, String> privateHeaderMap,
-      HttpUrlConnectionSource connectionSource)
+      HttpUrlConnectionSource connectionSource, Proxy proxy)
       throws IOException {
 
     this.connectionSource = connectionSource;
     this.type = type;
     this.inputType = inputType;
     this.requestUrl = requestUrl;
-    this.httpConn = getRequestConnection(requestUrl);
+    this.httpConn = getRequestConnection(requestUrl, proxy);
     this.authToken = authToken;
 
     switch (type) {
@@ -372,12 +369,12 @@ public class HttpGDataRequest implements GDataRequest {
   /**
    * Obtains a connection to the GData service.
    */
-  protected HttpURLConnection getRequestConnection(URL requestUrl)
+  protected HttpURLConnection getRequestConnection(URL requestUrl, Proxy proxy)
       throws IOException {
 
     HttpURLConnection uc;
     try {
-      uc = connectionSource.openConnection(requestUrl);
+      uc = connectionSource.openConnection(requestUrl, proxy);
     } catch (IllegalArgumentException e) {
       throw new UnsupportedOperationException("Unsupported scheme:"
           + requestUrl.getProtocol());

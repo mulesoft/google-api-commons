@@ -12,9 +12,9 @@ package org.mule.modules.google.api.client.batch;
 
 import java.io.IOException;
 
-import com.google.api.client.googleapis.GoogleHeaders;
 import com.google.api.client.googleapis.batch.json.JsonBatchCallback;
 import com.google.api.client.googleapis.json.GoogleJsonError;
+import com.google.api.client.http.HttpHeaders;
 
 /**
  * 
@@ -27,13 +27,13 @@ public abstract class BatchCallback<W, T> extends JsonBatchCallback<T> {
 	
 	
 	@Override
-	public void onFailure(GoogleJsonError e, GoogleHeaders responseHeaders) throws IOException {
+	public void onFailure(GoogleJsonError e, HttpHeaders responseHeaders) throws IOException {
 		this.response.addError(e);
 		
 	}
 	
 	@Override
-	public void onSuccess(T t, GoogleHeaders responseHeaders) {
+	public void onSuccess(T t, HttpHeaders responseHeaders) {
 		this.response.addSuccessful(this.typeToWrapper(t));
 	};
 	

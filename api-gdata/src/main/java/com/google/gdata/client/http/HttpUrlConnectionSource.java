@@ -13,6 +13,7 @@ package com.google.gdata.client.http;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.Proxy;
 import java.net.URL;
 
 /**
@@ -24,7 +25,8 @@ public interface HttpUrlConnectionSource {
    * Creates a new {@link HttpURLConnection} for {@code url}.
    *
    * @param url url to connect to
+   * @param proxy proxy to connect to
    * @throws IllegalArgumentException if url is not an HTTP url
    */
-  HttpURLConnection openConnection(URL url) throws IOException;
+  HttpURLConnection openConnection(URL url, Proxy proxy) throws IOException;
 }

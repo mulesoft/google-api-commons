@@ -24,10 +24,7 @@ import com.google.gdata.util.Version;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.CookieHandler;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
+import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -84,10 +81,10 @@ public class GoogleGDataRequest extends HttpGDataRequest {
   public static class Factory extends HttpGDataRequest.Factory {
     @Override
     protected GDataRequest createRequest(RequestType type,
-        URL requestUrl, ContentType contentType)
+        URL requestUrl, ContentType contentType, Proxy proxy)
         throws IOException, ServiceException {
       return new GoogleGDataRequest(type, requestUrl, contentType, authToken,
-          headerMap, privateHeaderMap, connectionSource);
+          headerMap, privateHeaderMap, connectionSource, proxy);
     }
   }
 
@@ -446,11 +443,12 @@ public class GoogleGDataRequest extends HttpGDataRequest {
                                HttpAuthToken authToken,
                                Map<String, String> headerMap,
                                Map<String, String> privateHeaderMap,
-                               HttpUrlConnectionSource connectionSource)
+                               HttpUrlConnectionSource connectionSource,
+                               Proxy proxy)
       throws IOException {
 
     super(type, requestUrl, contentType, authToken,
-        headerMap, privateHeaderMap, connectionSource);
+        headerMap, privateHeaderMap, connectionSource, proxy);
   }
 
   /**

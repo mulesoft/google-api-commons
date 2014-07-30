@@ -13,6 +13,7 @@ package com.google.gdata.client.http;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.Proxy;
 import java.net.URL;
 
 /**
@@ -24,10 +25,10 @@ public class JdkHttpUrlConnectionSource implements HttpUrlConnectionSource {
   public static final JdkHttpUrlConnectionSource INSTANCE = 
       new JdkHttpUrlConnectionSource();
 
-  public HttpURLConnection openConnection(URL url) throws IOException {
+  public HttpURLConnection openConnection(URL url, Proxy proxy) throws IOException {
     if (!url.getProtocol().startsWith("http")) {
       throw new IllegalArgumentException("Not an HTTP url: " + url);
     }
-    return (HttpURLConnection) url.openConnection();
+      return proxy == null ? (HttpURLConnection) url.openConnection() : (HttpURLConnection) url.openConnection(proxy);
   }
 }
